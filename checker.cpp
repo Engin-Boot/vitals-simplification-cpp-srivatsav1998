@@ -2,10 +2,7 @@
 #include <iostream>
 
 bool isInsideLimit(float value, float lowerLimit, float upperLimit){
-  if( value >= lowerLimit && value <= upperLimit){
-    return true;
-  }
-  return false;
+  return ( value >= lowerLimit && value <= upperLimit );
 }
 
 void testAbstractFunction(){
