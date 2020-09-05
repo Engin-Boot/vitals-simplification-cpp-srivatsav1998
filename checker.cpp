@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <vector>
 
 using namespace std;
 
@@ -31,7 +32,6 @@ class Vital{
     char* vitalName;
     Alert* alertSystem;
     public:
-    Vital(){}
     Vital(int x, int y, char* z, Alert* alerter): lowLimit(x), highLimit(y), vitalName(z), alertSystem(alerter) {}
     void isInRange(int val){
         if(val < lowLimit){
@@ -43,31 +43,29 @@ class Vital{
     }
 };
 
-
-
 class VitalsChecker{
 private:
     Alert* alertSystem;
-    Vital vitals[3];
+    vector<Vital> vitals;
 public:
     VitalsChecker(Alert* alerter):alertSystem(alerter)
     {
-        vitals[0] = Vital(70, 150, "Pulse checker", alertSystem);
-        vitals[1] = Vital(90, 100, "spo2", alertSystem);
-        vitals[2] = Vital(30, 95, "respRate", alertSystem);
+        vitals.push_back(Vital(70, 150, "Pulse checker", alertSystem));
+        vitals.push_back(Vital(90, 100, "spo2", alertSystem));
+        vitals.push_back(Vital(30, 95, "respRate", alertSystem));
     }
-    void checkVitals(float* vals){
-        for (int i=0; i<3; i++){
+    void checkVitals(vector<float> vals){
+        for (int i=0; i<vals.size(); i++){
             vitals[i].isInRange(vals[i]);
         }
     }
 };
 
 int main(){
-    float vals[3] = {30,40,50};
-    AlertWithSms alertSystem;
-    VitalsChecker vitals(&alertSystem);
+    vector<float> v{30,40,50};
+    Alert* alertSystem = new AlertWithSms;
+    VitalsChecker vitals(alertSystem);
 
-    vitals.checkVitals(vals);
+    vitals.checkVitals(v);
     return 0;
 }
